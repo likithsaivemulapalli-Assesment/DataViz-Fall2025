@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>d3-geo stream with SVG</title>
+    <script src="https://d3js.org/d3-geo.v3.min.js"></script>
+    <style>
+        body { margin: 0; display:flex; justify-content:center; align-items:center; height:100vh; }
+        svg { border: 1px solid #333; background:#fafafa; }
+        circle { fill: crimson; }
+        path { fill: none; stroke: #333; stroke-width: 2px; }
+    </style>
+</head>
+<body>
+<svg id="svg" width="500" height="300"></svg>
+
+<script>
+    const svg = d3.select("#svg");
+
+    // Simple GeoJSON polygon (triangle)
+    const triangle = {
+        type: "Polygon",
+        coordinates: [[
+            [-60, -20], [0, 40], [60, -20], [-60, -20]
+        ]]
+    };
+
+    // Projection
+    const projection = d3.geoMercator()
+        .scale(200)
+        .translate([250, 150]);
+
+    // A stream implementation that appends SVG elements
+    function makeSvgStream(svg) {
+        let currentPath;
+        return {
+            polygonStart() {
+                currentPath = svg.append("path").attr("d", "");
+            },
+            polygonEnd() { /* close automatically */ },
+            lineStart() {
+                currentPath = svg.append("path").attr("d", "");
+            },
+            lineEnd() {},
+            point(x, y) {
+                // update path data if path exists
+                if (currentPath) {
+                    let d = currentPath.attr("d");
+                    currentPath.attr("d", d + (d ? "L" : "M") + x + "," + y);
+                }
+                // add a red circle at each point
+                svg.append("circle").attr("cx", x).attr("cy", y).attr("r", 4);
+            },
+            sphere() {}
+        };
+    }
+
+    // Compose with projection
+    const svgStream = projection.stream(makeSvgStream(svg));
+
+    // Run stream
+    d3.geoStream(triangle, svgStream);
+</script>
+</body>
+</html>
