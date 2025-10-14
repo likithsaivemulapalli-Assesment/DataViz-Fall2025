@@ -53,6 +53,14 @@
             )
     )
 
+    console.log(   d3.zoom()
+        .extent([[0,0],[1000,800]])
+        .scaleExtent([1,12])
+        .on('zoom',d=>{
+                main.attr("transform",d.transform)
+            }
+        ))
+
 </script>
 
 

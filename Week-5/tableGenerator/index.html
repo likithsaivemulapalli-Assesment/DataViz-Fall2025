@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../libs/d3/d3.js"></script>
+    <style>
+        .head-row{
+            font-weight: bold;
+        }
+        .body-row{
+            background-color: #DFEDE2;
+        }
+        table{
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid grey;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+</div>
+<script>
+    d3.csv("data_sample.csv").then(data=>{
+        console.log(data)
+        TableGenerator(data,".container")
+    })
+
+
+    function TableGenerator(data,container){
+        const table = d3.selectAll(container)
+            .append("Table")
+            .selectAll(".rows")
+            .data(data)
+            .enter()
+            .append("tr")
+            .attr("class", function(d, i){
+                if(i===0){return "head-row"}
+                return "body-row"
+            }
+                )
+            .selectAll(".td")
+            .data((d,i)=> {
+                if(i===0){
+                    return Object.keys(d);
+                }
+                else{
+                    return Object.values(d)
+                }
+            })
+            .enter()
+            .append("td")
+            .text(d=>d)
+    }
+
+</script>
+</body>
+</html>
