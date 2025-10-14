@@ -20,7 +20,7 @@
 
 4. **Page Styling:** Add a title (H1) for the assignment at the top center of the page and your name below it (H3). Style the page and center the SVG using a div. Consider color schemes, font choices, and layout suggestions for a professional appearance (5/100 points).
 
-5. **Interaction:** Add a temporal line chart for Gini index change on the tooltip of MAP C and style it properly. Specify how the bonus point can be achieved, focusing on data accuracy and visualization clarity. Use FlexBox to organize your page (10/100 points).
+5. **Interaction:** Add a temporal line chart for Gini index change on the tooltip of MAP C and style it properly (should appear on mouse enter, and disappear on mouse leave). Use FlexBox to organize your page (10/100 points).
 
 6. **GitHub Webpage:** Create a GitHub webpage for the visualization, ensuring it's publicly accessible (5/100 points).
 
